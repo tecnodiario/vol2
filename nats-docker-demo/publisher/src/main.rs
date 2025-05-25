@@ -1,12 +1,13 @@
-use nats::asynk::Connection;
+use async_nats::Client;
 use tokio::time::{sleep, Duration};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let nc: Connection = nats::asynk::connect("nats:4222").await?;
+    // Connetti al broker NATS
+    let client: Client = async_nats::connect("nats://nats:4222").await?;
     for i in 1..=5 {
         let msg = format!("Messaggio numero {}", i);
-        nc.publish("amici", msg.as_bytes()).await?;
+        client.publish("amici", msg.clone().into()).await?;
         println!("Inviato: {}", msg);
         sleep(Duration::from_secs(1)).await;
     }
