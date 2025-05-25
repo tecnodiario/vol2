@@ -1,0 +1,25 @@
+services:
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+      - "8222:8222"   # Monitoring HTTP
+    command: -DV     # Debug + Version on startup
+
+  cli:
+    image: nats:latest
+    entrypoint: ["sh","-c"]
+    tty: true
+    depends_on:
+      - nats
+    # user can run: docker-compose run cli nats sub ... / nats pub ...
+
+  subscriber:
+    build: ./subscriber
+    depends_on:
+      - nats
+
+  publisher:
+    build: ./publisher
+    depends_on:
+      - nats
