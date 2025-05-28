@@ -4,7 +4,7 @@ COPY Cargo.toml .
 COPY src src
 RUN cargo build --release
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 RUN apt-get update \
 	&& apt-get upgrade -y \
 	&& apt-get install -y --no-install-recommends ca-certificates \
