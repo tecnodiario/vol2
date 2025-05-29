@@ -12,13 +12,13 @@ services:
     image: natsio/nats-box:latest
     command: ["/bin/ash"]      # ash esiste in nats-box
     environment:
-      - NATS_URL=nats://nats:4222
+      - NATS_URL=nats://nats:4222  # user can run: docker-compose run cli nats sub ... / nats pub ...
     stdin_open: true
     tty: true
     depends_on:
       - nats
 
-    # user can run: docker-compose run cli nats sub ... / nats pub ...
+    
 
   subscriber:
     build: ./subscriber

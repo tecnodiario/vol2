@@ -1,4 +1,4 @@
-FROM rust:1.86-slim AS builder
+FROM rust:latest AS builder
 WORKDIR /app
 # Copia Cargo.toml e sorgenti
 COPY Cargo.toml .
