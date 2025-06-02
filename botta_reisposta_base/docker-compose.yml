@@ -1,0 +1,31 @@
+
+services:
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+      - "8222:8222"   # Monitoring HTTP
+    command: -DV     # Debug + Version on startup
+
+    # CLI interattivo, con shell e NATS CLI
+  cli:
+    image: natsio/nats-box:latest
+    command: ["/bin/ash"]      # ash esiste in nats-box
+    environment:
+      - NATS_URL=nats://nats:4222  # user can run: docker-compose run cli nats sub ... / nats pub ...
+    stdin_open: true
+    tty: true
+    depends_on:
+      - nats
+
+    
+
+  server_a:
+    build: ./server_a
+    depends_on:
+      - nats
+
+  server_b:
+    build: ./server_b
+    depends_on:
+      - nats
