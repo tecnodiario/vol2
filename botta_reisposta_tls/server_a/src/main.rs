@@ -3,6 +3,7 @@ use async_nats::{ConnectOptions};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use tokio::time::{sleep, Duration};
+use std::env;
 use std::path::PathBuf;
 
 #[derive(Serialize)]
@@ -11,12 +12,19 @@ struct AuthRequest { user_id: String, token: String }
 #[derive(Deserialize, Debug)]
 struct AuthResponse { session_id: String, valid: bool }
 
+// Funzione per ottenere il percorso del file di certificato
+fn cert_file(name: &str) -> PathBuf {
+    let base = env::var("TLS_CERT_DIR")
+        .unwrap_or_else(|_| "/etc/worker/certs".into());
+    PathBuf::from(base).join(name)
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. Leggiamo i file PEM montati nel container
-    let ca_file     = PathBuf::from("/etc/certs/ca.cert.pem");
-    let client_cert = PathBuf::from("/etc/certs/client.cert.pem");
-    let client_key  = PathBuf::from("/etc/certs/client.key.pem");
+    let ca_file     = PathBuf::from(cert_file("ca.cert.pem"));
+    let client_cert = PathBuf::from(cert_file("client.cert.pem"));
+    let client_key  = PathBuf::from(cert_file("client.key.pem"));
 
     // 2. Costruiamo il builder delle opzioni TLS
     //    - require_tls(true) forza il TLS
