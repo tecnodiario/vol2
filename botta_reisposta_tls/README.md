@@ -22,20 +22,20 @@ Con questo esempio “botta e risposta” hai un proof-of-concept di Request/Rep
    docker-compose logs -f server_b
    ```
 
-3. **Clean up
+3. **Clean up**
     '''bash
     docker-compose run --rm cli nats sub auth.request -s tls://nats:4222
     '''
 
-**Riepilogo
+## Riepilogo
 
-1. ***CA
+1. ***CA***
 
 Genera ca.key.pem (chiave privata)
 
 Genera ca.cert.pem (certificato pubblico, self-signed)
 
-2. ***Server (broker NATS)
+1. ***Server (broker NATS)***
 
 Genera server.key.pem (chiave privata)
 
@@ -43,7 +43,7 @@ Crea server.csr.pem (richiesta)
 
 Firma la CSR: ottieni server.cert.pem
 
-3. ***Client (server_a / server_b)
+1. ***Client (server_a / server_b)***
 
 Genera client.key.pem (chiave privata)
 
@@ -51,16 +51,15 @@ Crea client.csr.pem (richiesta)
 
 Firma la CSR: ottieni client.cert.pem
 
-4. ***Docker Compose
+1. ***Docker Compose***
 
 Monta i certificati nel container nats (broker) e in server_a/server_b (client)
 
 Avvia nats-server con --tls … --tlscert … --tlskey … --tlscacert … --tlscertrequired true
 
-5. ***Codice Rust
+1. ***Codice Rust***
 
 Carica client.cert.pem, client.key.pem e ca.cert.pem con tokio_rustls
-
 
 Ora la comunicazione è cifrata (TLS) e autenticata da entrambi i lati (mTLS).
 
