@@ -12,3 +12,4 @@ botta_reisposta_tls/certs/server.csr.pem
 botta_reisposta_tls/certs/server.key.pem
 botta_reisposta_tls/server_a/Cargo.lock
 botta_reisposta_tls/server_b/Cargo.lock
+.DS_Store
