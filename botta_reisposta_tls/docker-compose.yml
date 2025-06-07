@@ -7,11 +7,10 @@ services:
       - "8222:8222"   # Monitoring HTTP
     command: ["-c", "/etc/nats/nats-server.conf"]
     volumes:
+      # Montiamo la cartella dei certificati
+      - ./certs:/etc/nats/certs:ro
+      # Montiamo il file di configurazione
       - ./nats-server.conf:/etc/nats/nats-server.conf:ro
-      - ./certs/server-cert.pem:/etc/nats/certs/server-cert.pem:ro
-      - ./certs/server-key.pem:/etc/nats/certs/server-key.pem:ro
-      - ./certs/ca-cert.pem:/etc/nats/certs/ca-cert.pem:ro
-
 
     # CLI interattivo, con shell e NATS CLI
   cli:
