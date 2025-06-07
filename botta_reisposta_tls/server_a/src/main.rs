@@ -6,6 +6,9 @@ use tokio::time::{sleep, Duration};
 use std::env;
 use std::path::PathBuf;
 
+
+use rustls::crypto::aws_lc_rs;
+
 #[derive(Serialize)]
 struct AuthRequest { user_id: String, token: String }
 
@@ -21,6 +24,13 @@ fn cert_file(name: &str) -> PathBuf {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // 0. Impostiamo il provider di crittografia per Rustls
+    //    Questo è necessario per usare AWS-LC come backend crittografico
+    //    (assicurati di avere la feature "aws-lc" abilitata in async-nats)
+    aws_lc_rs::default_provider()
+        .install_default()
+        .expect("failed to install rustls crypto provider");
+    
     // 1. Leggiamo i file PEM montati nel container
     let ca_file     = PathBuf::from(cert_file("ca.cert.pem"));
     let client_cert = PathBuf::from(cert_file("client.cert.pem"));
