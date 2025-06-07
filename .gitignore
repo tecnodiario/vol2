@@ -1,2 +1,14 @@
 nats-docker-demo/subscriber/Cargo.lock
 botta_reisposta_base/server_a/Cargo.lock
+botta_reisposta_tls/certs/ca.cert.pem
+botta_reisposta_tls/certs/ca.cert.srl
+
+botta_reisposta_tls/certs/ca.key.pem
+botta_reisposta_tls/certs/client.cert.pem
+botta_reisposta_tls/certs/client.csr.pem
+botta_reisposta_tls/certs/client.key.pem
+botta_reisposta_tls/certs/server.cert.pem
+botta_reisposta_tls/certs/server.csr.pem
+botta_reisposta_tls/certs/server.key.pem
+botta_reisposta_tls/server_a/Cargo.lock
+botta_reisposta_tls/server_b/Cargo.lock
