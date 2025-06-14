@@ -1,0 +1,18 @@
+services:
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+    command: -DV
+  server_b:
+    build: ./server_b
+    volumes:
+      - ./jwt-keys/public.pem:/app/public.pem:ro
+    depends_on:
+      - nats
+  server_a:
+    build: ./server_a
+    volumes:
+      - ./jwt-keys/private.pem:/app/private.pem:ro
+    depends_on:
+      - nats
